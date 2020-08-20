@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>城市</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        {{city.house_type}}
+        <a href="">不限</a>
+        {% for area in city.area_table_set.all %}
+            <a href="/app/area/{{area.id}}/1">{{area.area_name}}</a>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% load to_and %}
+{% block link %}
+<style>
+    #aa{
+     font-size:12px;
+     border:1px rgb(221, 221, 221) solid;
+     padding:2px;
+     color:rgb(153, 153, 153);
+    }
+    #aa:hover{
+        color:red;
+        border:1px red solid;
+    }
+    a{
+        text-decoration : none;
+    }
+    .blo:hover{
+        background-color:rgb(245,245,245);
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+        <p style="text-align:center;border-bottom:1px grey solid;"><strong >{{city.house_type}}</strong></p>
+            <ul style="list-style-type: none;margin:0px;padding:0px;">
+                {% for area in city.area_table_set.all %}
+                    <li style="display:inline-block; padding:5px;"><a class="btn btn-default" href="/app/area/{{city_id}}/{{area.id}}/1">{{area.area_name}}</a></li>
+                {% endfor %}
+             <a href="/app/tu/" class="btn btn-primary">地图选房</a>
+            </ul>
+    
+    <div class="container col-xs-8">
+
+
+
+
+        {% for result in results %}
+        <div style="border-bottom:1px rgb(200,200,200) solid;" class="row blo">
+            <br>
+            <br>
+            <div style="height:80px;width:200px;" class="col-xs-2">
+                <a href="{{result.house_detail}}"><img src="{% static 'image/aa.jpg' %}"></a>
+            </div>
+            <div style="height:80px;" class= "col-xs-5">
+                <strong><p>{{ result.house_name }}</p></strong>
+                <p style="color: #999;font-size:12px;">{{ result.house_descript }}&nbsp;~&nbsp;{{ result.house_size }}</p>
+                <p style="color: #999;font-size:12px;">{{ result.house_address }}</p>
+                {% for label in result.house_label|to_and %}
+                    <a href="" id="aa">{{label}}</a>&nbsp;
+                {% endfor %}
+                <!--<a href="" id="aa">在售</a>&nbsp;<a id="aa" href="">普通住宅</a>&nbsp;<a href="" id="aa">品牌产品</a>-->
+            </div>
+            <div class='col-xs-offset-9' style='height:80px;padding:0px;'>
+                <p style='color:red;font-size:20px;font-weight:bold;margin:0px;'> 价格：{{ result.house_price }}</p>
+                <br>
+                <p style='color:black;font-size:15px;font-weight:bold;margin:0px;'>电话：{{result.house_phone}}</p>
+            </div>
+            <br><br><br>
+        </div>
+        {% endfor %}
+        <ul class="pager">
+            <li><a href="/app/area/{{city_id}}/{{area_id}}/{{last}}">Previous</a></li>
+            <li><a href="/app/area/{{city_id}}/{{area_id}}/{{next}}">Next</a></li>
+        </ul>
+
+    </div>
+
+    <script>
+        data = {
+            labels: ["最高价格", "平均价格", "价格"],
+            datasets: [
+                { values: [120000,90000,100000] }
+            ]
+        }
+
+        new frappe.Chart( "#chart", {
+            data: data,
+            type: 'bar',
+            height: 180,
+            colors: ['red']
+        });
+    </script>
+</div>
+
+{% endblock %}

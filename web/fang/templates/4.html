@@ -1,0 +1,92 @@
+<!DOCTYPE html>  
+<html>
+<head>  
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+    <meta http-equiv="Content-Type" content="textml; charset=utf-8" />  
+      
+    <style type="text/css">  
+        html{height:100%}  
+        body{height:100%;margin:0px;padding:0px}  
+        #container{height:100%;width: 80%;float: left;}
+
+    </style>  
+    
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=CzyN8k3YK9BVpP2fOwhtiCpkkZKwASd5"></script>
+</head>  
+ 
+<body>
+	<div id="container"></div> 
+	<div style="height: 100%;float: left;width:17%;">
+		<h2>推荐</h2>
+		<p id="p"></p>
+	</div>
+</body> 
+<ml>
+<script type="text/javascript">
+	var map = new BMap.Map("container");// 创建Map实例
+	var mPoint = new BMap.Point(116.404, 39.915);  
+	map.centerAndZoom(mPoint,15);  //初始化地图
+	
+	map.enableScrollWheelZoom();  //支持地图缩放
+	
+	//根据浏览器定位
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			alert('your location :'+r.point.lng+','+r.point.lat);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	
+	
+	//地图选点获取经纬度
+	map.addEventListener("click",function(e){
+		
+    		var point = new BMap.Point(e.point.lng, e.point.lat);  
+    		var circle = new BMap.Circle(point,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+    		map.addOverlay(circle);
+			loadXMLDoc(e.point.lng,e.point.lat)
+		var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});  
+    		local.searchNearby('小区',point,1000);
+    		
+	});
+
+	function loadXMLDoc(x,y)
+{
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	{
+		// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{
+		// IE6, IE5 浏览器执行代码
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","/app/deal/?x="+x+"&y="+y,true);
+	xmlhttp.send();
+
+	xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+		alert('a');
+        data=mlhttp.responseText;
+        alert(data);
+    }
+  }
+}
+</script>

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地区</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .{{area.id}}{
+            background-color:red;
+        }
+    </style>
+</head>
+<body style="background-color:white;">
+    <div class="container">
+        {% for province in provinces %}
+            <div>
+                <strong>{{ province.province_name }}</strong>&nbsp;&nbsp;&nbsp;
+                {% for city in province.city_table_set.all %}
+                <a href="/app/area/{{city.id}}/1/1/">{{city.city_name}}</a>&nbsp;&nbsp;
+                {% endfor %}
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+</body>
+</html>
