@@ -1,0 +1,2 @@
+# FangSpider
+使用scrapy爬取房天下的房子信息，将数据导入数据库使用django搭建一个房子网站
